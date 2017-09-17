@@ -76,14 +76,27 @@ class CustomLogging(logging.Logger):
         return level
 
     @_level_counter
-    def dataframe_head_tail(self, df, n=5, msg="", level="INFO", *args):
+    def dataframe_head_tail(self, df, n=5, h=None, t=None, msg="", level="INFO", *args):
+        """
+        Logs the head and tail of a dataframe.
+
+        :param df:     input dataframe
+        :param n:      default number of rows in both head and tail; default is 5
+        :param h:      number of rows in the head, overwrites n
+        :param t:      number of rows in the tail, overwrites n
+        :param msg:    log message; default is no message (empty string)
+        :param level:  log level; default is INFO
+        :param args:
+        :return:       log level for level counting purposes
+        """
         level = eval("logging." + level.upper())
         if not self._is_level_allowed(level=level):
             return None
 
         if df.__class__ == pd.DataFrame:
-            df = pd.concat([df.head(n), df.tail(n)])
-            self._log(level, msg + "\n" + df.to_string(), args)
+            head = df.head(h) if h else df.head(n)
+            tail = df.tail(t) if t else df.tail(n)
+            self._log(level, msg + "\nHEAD\n" + head.to_string() + "\nTAIL\n" + tail.to_string(), args)
         else:
             self._log(logging.ERROR, "no dataframe was passed in...", args)
         return level
