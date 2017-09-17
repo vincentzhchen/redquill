@@ -99,7 +99,7 @@ class CustomLogging(logging.Logger):
         self._log(level, msg + "\nHEAD\n" + head.to_string() + "\nTAIL\n" + tail.to_string(), None)
         self._collect_level_statistics(level=level)
 
-    def warn_duplicates(self, df, subset=None, msg="", keep=False):
+    def warn_duplicate_values(self, df, subset=None, msg="", keep=False):
         if not self._is_level_allowed(level=logging.WARNING):
             return None
 
@@ -107,8 +107,20 @@ class CustomLogging(logging.Logger):
             return None
 
         df = df[df.duplicated(subset=subset, keep=keep)]
-        self._log(logging.WARNING, msg + "\n" + df.to_string(), None)
-        self._collect_level_statistics(level=logging.WARNING)
+        if not df.empty:
+            self._log(logging.WARNING, msg + "\n" + df.to_string(), None)
+            self._collect_level_statistics(level=logging.WARNING)
+
+    def warn_null_values(self, df, msg=""):
+        if not self._is_level_allowed(level=logging.WARNING):
+            return None
+
+        if not self._is_dataframe(df=df):
+            return None
+
+        if df.isnull().any().any():
+            self._log(logging.WARNING, msg + "\n" + df[df.isnull().any(axis=1)].to_string(), None)
+            self._collect_level_statistics(level=logging.WARNING)
 
     def get_error_count(self):
         self._log(logging.INFO, "TOTAL ERRORS: {}".format(self.error_count), None)
