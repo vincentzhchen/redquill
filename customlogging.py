@@ -111,7 +111,7 @@ class CustomLogging(logging.Logger):
             self._log(logging.WARNING, msg + "\n" + df.to_string(), None)
             self._collect_level_statistics(level=logging.WARNING)
 
-    def warn_null_values(self, df, msg=""):
+    def warn_missing_values(self, df, msg=""):
         if not self._is_level_allowed(level=logging.WARNING):
             return None
 
