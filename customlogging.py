@@ -43,21 +43,21 @@ class CustomLogging(logging.Logger):
 
     def error(self, msg, *args, **kwargs):
         if not self._is_level_allowed(level=logging.ERROR):
-            return None
+            return
 
         self._log(logging.ERROR, msg, args, kwargs)
         self._collect_level_statistics(level=logging.ERROR)
 
     def warning(self, msg, *args, **kwargs):
         if not self._is_level_allowed(level=logging.WARNING):
-            return None
+            return
 
         self._log(logging.WARNING, msg, args, kwargs)
         self._collect_level_statistics(level=logging.WARNING)
 
     def log_exception(self):
         if not self._is_level_allowed(level=logging.ERROR):
-            return None
+            return
 
         self._log(logging.ERROR, "Stack...\n%s" % traceback.format_exc(), None)
         self._collect_level_statistics(level=logging.ERROR)
@@ -65,10 +65,10 @@ class CustomLogging(logging.Logger):
     def log_dataframe(self, df, msg="", level="INFO"):
         level = eval("logging." + level.upper())
         if not self._is_level_allowed(level=level):
-            return None
+            return
 
         if not self._is_dataframe(df=df):
-            return None
+            return
 
         self._log(level, msg + "\n" + df.to_string(), None)
         self._collect_level_statistics(level=level)
@@ -83,15 +83,14 @@ class CustomLogging(logging.Logger):
         :param t:      number of rows in the tail, overwrites n
         :param msg:    log message; default is no message (empty string)
         :param level:  log level; default is INFO
-        :param args:
         :return:       log level for level counting purposes
         """
         level = eval("logging." + level.upper())
         if not self._is_level_allowed(level=level):
-            return None
+            return
 
         if not self._is_dataframe(df=df):
-            return None
+            return
 
         head = df.head(h) if h else df.head(n)
         tail = df.tail(t) if t else df.tail(n)
@@ -100,22 +99,22 @@ class CustomLogging(logging.Logger):
 
     def warn_duplicate_values(self, df, subset=None, msg="", keep=False):
         if not self._is_level_allowed(level=logging.WARNING):
-            return None
+            return
 
         if not self._is_dataframe(df=df):
-            return None
+            return
 
         df = df[df.duplicated(subset=subset, keep=keep)]
         if not df.empty:
             self._log(logging.WARNING, msg + "\n" + df.to_string(), None)
             self._collect_level_statistics(level=logging.WARNING)
 
-    def warn_missing_values(self, df, msg=""):
+    def warn_null_values(self, df, msg=""):
         if not self._is_level_allowed(level=logging.WARNING):
-            return None
+            return
 
         if not self._is_dataframe(df=df):
-            return None
+            return
 
         if df.isnull().any().any():
             self._log(logging.WARNING, msg + "\n" + df[df.isnull().any(axis=1)].to_string(), None)
