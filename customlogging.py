@@ -55,6 +55,13 @@ class CustomLogging(logging.Logger):
         self._log(logging.WARNING, msg, args, kwargs)
         self._collect_level_statistics(level=logging.WARNING)
 
+    def warn(self, msg, *args, **kwargs):
+        if not self._is_level_allowed(level=logging.WARNING):
+            return
+
+        self._log(logging.WARNING, msg, args, kwargs)
+        self._collect_level_statistics(level=logging.WARNING)
+
     def log_exception(self):
         if not self._is_level_allowed(level=logging.ERROR):
             return
