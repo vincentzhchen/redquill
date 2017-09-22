@@ -6,7 +6,7 @@ import pandas as pd
 
 # noinspection PyArgumentList,PyCallingNonCallable
 class CustomLogging(logging.Logger):
-    def __init__(self, log_dir, name=__name__, level=logging.DEBUG):
+    def __init__(self, log_dir, name=__name__, level=None):
         super(CustomLogging, self).__init__(name=name)
 
         # --- SET UP LOGGING ---
@@ -17,6 +17,7 @@ class CustomLogging(logging.Logger):
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
 
+        level = level if level else logging.DEBUG
         self.setLevel(level)
         self.addHandler(file_handler)
         self.addHandler(console_handler)
