@@ -42,6 +42,12 @@ class CustomLogging(logging.Logger):
             self._log(logging.ERROR, "no dataframe was passed in...", None)
             return False
 
+    def info(self, msg, *args, **kwargs):
+        if not self._is_level_allowed(level=logging.INFO):
+            return
+
+        self._log(logging.INFO, msg, args, kwargs)
+
     def error(self, msg, *args, **kwargs):
         if not self._is_level_allowed(level=logging.ERROR):
             return
