@@ -6,18 +6,22 @@ import pandas as pd
 
 # noinspection PyArgumentList,PyCallingNonCallable
 class CustomLogging(logging.Logger):
-    def __init__(self, log_dir, name=__name__, level=None):
+    def __init__(self, log_dir, name=__name__, level=logging.NOTSET):
         super(CustomLogging, self).__init__(name=name)
 
         # --- SET UP LOGGING ---
-        formatter = logging.Formatter("%(asctime)s - %(process)d - %(levelname)s - %(module)s.%(funcName)s - %(message)s")
-        file_handler = logging.FileHandler(os.path.realpath(os.path.join(log_dir, "log.log")), encoding="utf-8")
+        formatter = logging.Formatter("%(asctime)s - "
+                                      "%(process)d - "
+                                      "%(levelname)s - "
+                                      "%(module)s.%(funcName)s - "
+                                      "%(message)s")
+        file_handler = logging.FileHandler(os.path.realpath(os.path.join(
+            log_dir, "log.log")), encoding="utf-8")
         file_handler.setFormatter(formatter)
 
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
 
-        level = level if level else logging.DEBUG
         self.setLevel(level)
         self.addHandler(file_handler)
         self.addHandler(console_handler)
@@ -87,17 +91,20 @@ class CustomLogging(logging.Logger):
         self._log(level, msg + "\n" + df.to_string(), None)
         self._collect_level_statistics(level=level)
 
-    def dataframe_head_tail(self, df, n=5, h=None, t=None, msg="", level="INFO"):
-        """
-        Logs the head and tail of a dataframe.
+    def dataframe_head_tail(self, df, n=5, h=None, t=None, msg="",
+                            level="INFO"):
+        """This function logs the head and tail of a dataframe.
 
-        :param df:     input dataframe
-        :param n:      default number of rows in both head and tail; default is 5
-        :param h:      number of rows in the head, overwrites n
-        :param t:      number of rows in the tail, overwrites n
-        :param msg:    log message; default is no message (empty string)
-        :param level:  log level; default is INFO
-        :return:       log level for level counting purposes
+        Args:
+            df (dataframe): Input dataframe.
+            n (int): Number of rows in both head and tail; default is 5.
+            h (int): Number of rows in the head, overwrites n.
+            t (int): Number of rows in the tail, overwrites n.
+            msg (str): Log message; default is no message (empty string).
+            level (str): Log level name; default is "INFO".
+
+        Returns:
+            void
         """
         level = eval("logging." + level.upper())
         if not self._is_level_allowed(level=level):
@@ -108,7 +115,8 @@ class CustomLogging(logging.Logger):
 
         head = df.head(h) if h else df.head(n)
         tail = df.tail(t) if t else df.tail(n)
-        self._log(level, msg + "\nHEAD\n" + head.to_string() + "\nTAIL\n" + tail.to_string(), None)
+        self._log(level, msg + "\nHEAD\n" + head.to_string() +
+                  "\nTAIL\n" + tail.to_string(), None)
         self._collect_level_statistics(level=level)
 
     def warn_duplicate_values(self, df, subset=None, msg="", keep=False):
@@ -131,11 +139,14 @@ class CustomLogging(logging.Logger):
             return
 
         if df.isnull().any().any():
-            self._log(logging.WARNING, msg + "\n" + df[df.isnull().any(axis=1)].to_string(), None)
+            self._log(logging.WARNING, msg + "\n" +
+                      df[df.isnull().any(axis=1)].to_string(), None)
             self._collect_level_statistics(level=logging.WARNING)
 
     def get_error_count(self):
-        self._log(logging.INFO, "TOTAL ERRORS: {}".format(self.error_count), None)
+        self._log(logging.INFO, "TOTAL ERRORS: {}".format(self.error_count),
+                  None)
 
     def get_warning_count(self):
-        self._log(logging.INFO, "TOTAL WARNINGS: {}".format(self.warn_count), None)
+        self._log(logging.INFO, "TOTAL WARNINGS: {}".format(self.warn_count),
+                  None)
