@@ -12,3 +12,6 @@
 
 # Vscode files
 .vscode
+
+# pytest files
+.pytest_cache

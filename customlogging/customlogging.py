@@ -20,7 +20,7 @@ import pandas as pd
 
 # noinspection PyArgumentList,PyCallingNonCallable
 class CustomLogging(logging.Logger):
-    def __init__(self, log_dir, name=__name__, level=logging.NOTSET):
+    def __init__(self, log_dir=None, name=__name__, level=logging.NOTSET):
         super(CustomLogging, self).__init__(name=name)
 
         # --- SET UP LOGGING ---
@@ -29,16 +29,20 @@ class CustomLogging(logging.Logger):
                                       "%(levelname)s - "
                                       "%(module)s.%(funcName)s - "
                                       "%(message)s")
-        file_handler = logging.FileHandler(os.path.realpath(os.path.join(
-            log_dir, "log.log")), encoding="utf-8")
-        file_handler.setFormatter(formatter)
+
+        # --- SET UP HANDLERS ---
+        if log_dir is not None:
+            file_handler = logging.FileHandler(os.path.realpath(os.path.join(
+                log_dir, "log.log")), encoding="utf-8")
+            file_handler.setFormatter(formatter)
+            self.addHandler(file_handler)
 
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
-
-        self.setLevel(level)
-        self.addHandler(file_handler)
         self.addHandler(console_handler)
+
+        # --- SET UP LEVEL ---
+        self.setLevel(level)
 
         # --- SET UP COUNTERS ---
         self.error_count = 0
@@ -158,9 +162,15 @@ class CustomLogging(logging.Logger):
             self._collect_level_statistics(level=logging.WARNING)
 
     def get_error_count(self):
+        return self.error_count
+
+    def get_warning_count(self):
+        return self.warn_count
+
+    def log_error_count(self):
         self._log(logging.INFO, "TOTAL ERRORS: {}".format(self.error_count),
                   None)
 
-    def get_warning_count(self):
+    def log_warning_count(self):
         self._log(logging.INFO, "TOTAL WARNINGS: {}".format(self.warn_count),
                   None)
