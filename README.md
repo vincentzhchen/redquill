@@ -46,7 +46,7 @@ log.warn_duplicate_values(df=df, subset="B", msg="Duplicates on B.")
 ```
 
 Console output.
-```python
+```
 2018-03-04 02:29:41,419 - 31825 - WARNING - test_customlogging.test_warn_duplicate_values - Duplicates on B.
      A  B
 1  2.0  2
