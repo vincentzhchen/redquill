@@ -23,7 +23,7 @@ which will allow the logs to flow into a file as well.
 log = cl.CustomLogging()
 ```
 
-The following will log null values in column ```B``` of ```df```.
+The following will log any null values found in ```df```.
 ```python
 df = pd.DataFrame({"A": [1, 2, None, 3],
                    "B": [4, 2, 2, 5]})
@@ -35,4 +35,20 @@ Console output.
 2018-03-04 01:34:33,162 - 23512 - WARNING - test_customlogging.test_warn_null_values - 
     A  B
 2 NaN  2
+```
+
+The following will log any duplicates found in column
+```B``` of ```df```.
+```python
+df = pd.DataFrame({"A": [1, 2, None, 3],
+                   "B": [4, 2, 2, 5]})
+log.warn_duplicate_values(df=df, subset="B", msg="Duplicates on B.")
+```
+
+Console output.
+```python
+2018-03-04 02:29:41,419 - 31825 - WARNING - test_customlogging.test_warn_duplicate_values - Duplicates on B.
+     A  B
+1  2.0  2
+2  NaN  2
 ```
