@@ -30,7 +30,7 @@ df = pd.DataFrame({"A": [1, 2, None, 3],
 log.warn_null_values(df=df)
 ```
 
-Console output
+Console output.
 ```
 2018-03-04 01:34:33,162 - 23512 - WARNING - test_customlogging.test_warn_null_values - 
     A  B
