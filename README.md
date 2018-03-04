@@ -28,11 +28,9 @@ The following will log null values in column ```B``` of ```df```.
 df = pd.DataFrame({"A": [1, 2, None, 3],
                    "B": [4, 2, 2, 5]})
 log.warn_null_values(df=df)
-```
 
-Out
-```
-2018-03-04 01:34:33,162 - 23512 - WARNING - test_customlogging.test_warn_null_values - 
-    A  B
-2 NaN  2
+# Out
+# 2018-03-04 01:34:33,162 - 23512 - WARNING - test_customlogging.test_warn_null_values - 
+#     A  B
+# 2 NaN  2
 ```
