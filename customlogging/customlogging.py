@@ -98,7 +98,21 @@ class CustomLogging(logging.Logger):
         self._log(logging.ERROR, "Stack...\n%s" % traceback.format_exc(), None)
         self._collect_level_statistics(level=logging.ERROR)
 
-    def log_dataframe(self, df, msg="", level="INFO"):
+    def log_dataframe(self, df, n=10, msg="", level="INFO"):
+        """This functions logs the dataframe.
+
+        The default only logs the first 10 rows, since the dataframe can be
+        potentially large.
+
+        Args:
+            df (dataframe): Input dataframe.
+            n (int): Number of rows to log.
+            msg (str): Log message.
+            level (str): Log level name; default is "INFO".
+
+        Returns:
+            void
+        """
         level = eval("logging." + level.upper())
         if not self._is_level_allowed(level=level):
             return
@@ -106,7 +120,7 @@ class CustomLogging(logging.Logger):
         if not self._is_dataframe(df=df):
             return
 
-        self._log(level, msg + "\n" + df.to_string(), None)
+        self._log(level, msg + "\n" + df.head(n).to_string(), None)
         self._collect_level_statistics(level=level)
 
     def dataframe_head_tail(self, df, n=5, h=None, t=None, msg="",
