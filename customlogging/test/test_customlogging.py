@@ -48,6 +48,7 @@ class TestDataFrameLogging(object):
         df = pd.DataFrame({"A": [1, 2, None, 3],
                            "B": [4, 2, 2, 5]})
         log.warn_duplicate_values(df=df, subset="B", msg="Duplicates on B.")
+        log.warn_duplicate_values(df=df, msg="No subset.")
 
     def test_warn_null_values(self, log):
         df = pd.DataFrame({"A": [1, 2, None, 3],
