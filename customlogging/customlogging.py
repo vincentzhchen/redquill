@@ -13,7 +13,6 @@
 # limitations under the License.
 # ==============================================================================
 import logging
-import traceback
 import os
 import pandas as pd
 
@@ -33,7 +32,7 @@ class CustomLogging(logging.Logger):
         # --- SET UP HANDLERS ---
         if log_dir is not None:
             file_handler = logging.FileHandler(os.path.realpath(os.path.join(
-                log_dir, "log.log")), encoding="utf-8")
+                log_dir, name)), encoding="utf-8")
             file_handler.setFormatter(formatter)
             self.addHandler(file_handler)
 
@@ -91,11 +90,12 @@ class CustomLogging(logging.Logger):
         self._log(logging.WARNING, msg, args, kwargs)
         self._collect_level_statistics(level=logging.WARNING)
 
-    def log_exception(self):
+    def log_exception(self, type, value, traceback):
         if not self._is_level_allowed(level=logging.ERROR):
             return
 
-        self._log(logging.ERROR, "Stack...\n%s" % traceback.format_exc(), None)
+        self._log(logging.ERROR, "Uncaught exception.", args=None,
+                  exc_info=(type, value, traceback))
         self._collect_level_statistics(level=logging.ERROR)
 
     def log_dataframe(self, df, n=10, msg="", level="INFO"):
