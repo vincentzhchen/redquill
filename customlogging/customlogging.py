@@ -15,11 +15,12 @@
 import logging
 import os
 import pandas as pd
+import sys
 
 
 # noinspection PyArgumentList,PyCallingNonCallable
 class CustomLogging(logging.Logger):
-    def __init__(self, log_dir=None, name=__name__, level=logging.NOTSET):
+    def __init__(self, log_dir=None, name="log.log", level=logging.NOTSET):
         super(CustomLogging, self).__init__(name=name)
 
         # --- SET UP LOGGING ---
@@ -28,6 +29,7 @@ class CustomLogging(logging.Logger):
                                       "%(levelname)s - "
                                       "%(module)s.%(funcName)s - "
                                       "%(message)s")
+        sys.excepthook = self.log_exception
 
         # --- SET UP HANDLERS ---
         if log_dir is not None:
