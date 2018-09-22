@@ -37,6 +37,8 @@ class CustomLogging(logging.Logger):
                 log_dir, name)), encoding="utf-8")
             file_handler.setFormatter(formatter)
             self.addHandler(file_handler)
+        else:
+            print("NO LOG DIRECTORY was specified... only log to console.")
 
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
