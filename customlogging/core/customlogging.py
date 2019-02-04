@@ -15,6 +15,7 @@
 import logging
 import os
 import pandas as pd
+import warnings
 
 
 # noinspection PyArgumentList,PyCallingNonCallable
@@ -188,3 +189,24 @@ class CustomLogging(logging.Logger):
     def log_warning_count(self):
         self._log(logging.INFO, "TOTAL WARNINGS: {}".format(self.warn_count),
                   None)
+
+
+def initialize_logger(log_dir=None, name=__name__, level=logging.NOTSET):
+    """API to construct CustomLogging instance.
+
+    Args:
+        log_dir (str): Root directory of the log file.
+        name (str): Basename of the log file with extension,
+            e.g. "log_file.log".
+        level (int): Log level value, e.g. logging.INFO, logging.DEBUG, etc.
+
+    Returns:
+        anonymous (CustomLogging): Returns a CustomLogging instance.
+    """
+    if log_dir is None:
+        warnings.warn("log_dir is None, no log file will be generated.")
+
+    if level not in logging._levelToName:
+        raise ValueError("Custom levels not supported at this time.")
+
+    return CustomLogging(log_dir=log_dir, name=name, level=level)
