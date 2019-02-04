@@ -18,10 +18,12 @@ import pandas as pd
 import sys
 import warnings
 
+LOG_NAME = "log.log"  # default log name
+
 
 # noinspection PyArgumentList,PyCallingNonCallable
 class CustomLogging(logging.Logger):
-    def __init__(self, log_dir=None, name=None, level=logging.NOTSET):
+    def __init__(self, log_dir=None, name=LOG_NAME, level=logging.NOTSET):
         super(CustomLogging, self).__init__(name=name)
 
         # --- SET UP LOGGING ---
@@ -209,7 +211,9 @@ def initialize_logger(log_dir=None, name=None, level=logging.NOTSET):
         warnings.warn("log_dir is None, no log file will be generated.")
 
     if name is None:
-        warnings.warn("name is None, no log file will be generated.")
+        warnings.warn(f"Log name is not specified, setting to default "
+                      f"log name: {LOG_NAME}.")
+        name = LOG_NAME
 
     if level not in logging._levelToName:
         raise ValueError("Custom levels not supported at this time.")
