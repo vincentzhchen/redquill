@@ -15,12 +15,13 @@
 import logging
 import os
 import pandas as pd
+import sys
 import warnings
 
 
 # noinspection PyArgumentList,PyCallingNonCallable
 class CustomLogging(logging.Logger):
-    def __init__(self, log_dir=None, name=__name__, level=logging.NOTSET):
+    def __init__(self, log_dir=None, name=None, level=logging.NOTSET):
         super(CustomLogging, self).__init__(name=name)
 
         # --- SET UP LOGGING ---
@@ -29,6 +30,7 @@ class CustomLogging(logging.Logger):
                                       "%(levelname)s - "
                                       "%(module)s.%(funcName)s - "
                                       "%(message)s")
+        sys.excepthook = self.log_exception
 
         # --- SET UP HANDLERS ---
         if log_dir is not None:
@@ -191,7 +193,7 @@ class CustomLogging(logging.Logger):
                   None)
 
 
-def initialize_logger(log_dir=None, name=__name__, level=logging.NOTSET):
+def initialize_logger(log_dir=None, name=None, level=logging.NOTSET):
     """API to construct CustomLogging instance.
 
     Args:
@@ -205,6 +207,9 @@ def initialize_logger(log_dir=None, name=__name__, level=logging.NOTSET):
     """
     if log_dir is None:
         warnings.warn("log_dir is None, no log file will be generated.")
+
+    if name is None:
+        warnings.warn("name is None, no log file will be generated.")
 
     if level not in logging._levelToName:
         raise ValueError("Custom levels not supported at this time.")
