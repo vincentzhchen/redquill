@@ -1,3 +1,4 @@
+import logging
 import pandas as pd
 import pytest
 import customlogging as cl
@@ -60,3 +61,17 @@ class TestDataFrameLogging(object):
 
     def test_get_warn_count(self, log):
         assert log.get_warning_count() == 2
+
+
+@pytest.mark.parametrize("log_dir, name, level", [
+    # no log dir, no log name
+    pytest.param(None, None, logging.INFO),
+
+    # no log dir, log name
+    pytest.param(None, "log_file.log", logging.INFO),
+
+    # custom log level not supported
+    pytest.param(None, "log_file.log", "TEST", marks=pytest.mark.xfail),
+])
+def test_initialize_logger(log_dir, name, level):
+    cl.initialize_logger(log_dir, name, level)
