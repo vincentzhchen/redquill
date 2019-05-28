@@ -1,4 +1,7 @@
 # customlogging
+[![Build Status](https://travis-ci.org/vincentzhchen/customlogging.png?branch=master)](https://travis-ci.org/vincentzhchen/customlogging)
+[![codecov](https://codecov.io/gh/vincentzhchen/customlogging/coverage.svg?branch=master)](https://codecov.io/gh/vincentzhchen/customlogging)
+
 Custom logging module built on top of the Python logging module.
 
 There are functions specifically to log pandas dataframes as well
