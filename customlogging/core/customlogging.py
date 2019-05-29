@@ -1,4 +1,4 @@
-# Copyright 2018 Vincent Chen. All Rights Reserved.
+# Copyright 2017 Vincent Chen. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+
+# STANDARD LIB
 import logging
 import os
 import pandas as pd
@@ -106,13 +108,13 @@ class CustomLogging(logging.Logger):
         self._collect_level_statistics(level=logging.ERROR)
 
     def log_dataframe(self, df, n=10, msg="", level="INFO"):
-        """This functions logs the dataframe.
+        """Logs a pandas data frame.
 
         The default only logs the first 10 rows, since the dataframe can be
         potentially large.
 
         Args:
-            df (dataframe): Input dataframe.
+            df (pd.DataFrame): Input dataframe.
             n (int): Number of rows to log.
             msg (str): Log message.
             level (str): Log level name; default is "INFO".
@@ -132,10 +134,10 @@ class CustomLogging(logging.Logger):
 
     def dataframe_head_tail(self, df, n=5, h=None, t=None, msg="",
                             level="INFO"):
-        """This function logs the head and tail of a dataframe.
+        """Logs the top and bottom n rows of a data frame.
 
         Args:
-            df (dataframe): Input dataframe.
+            df (pd.DataFrame): Input dataframe.
             n (int): Number of rows in both head and tail; default is 5.
             h (int): Number of rows in the head, overwrites n.
             t (int): Number of rows in the tail, overwrites n.
