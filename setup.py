@@ -24,5 +24,6 @@ setup(
     ],
     packages=["redquill"],
     include_package_data=True,
-    install_requires=["requill", "redquill.*"],
+    install_requires=["requill", "redquill.*", "pandas >= 0.18.0"],
+    python_requires=">=3.6"
 )
