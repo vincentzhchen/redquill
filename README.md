@@ -1,8 +1,10 @@
-# customlogging
-[![Build Status](https://travis-ci.org/vincentzhchen/customlogging.png?branch=master)](https://travis-ci.org/vincentzhchen/customlogging)
-[![codecov](https://codecov.io/gh/vincentzhchen/customlogging/coverage.svg?branch=master)](https://codecov.io/gh/vincentzhchen/customlogging)
+# redquill
+[![Build Status](https://travis-ci.org/vincentzhchen/redquill.png?branch=master)](https://travis-ci.org/vincentzhchen/redquill)
+[![codecov](https://codecov.io/gh/vincentzhchen/redquill/coverage.svg?branch=master)](https://codecov.io/gh/vincentzhchen/redquill)
 
-Custom logging module built on top of the Python logging module.
+Logging for pandas and more.
+
+##Desription
 
 There are functions specifically to log pandas dataframes as well
 as functions to count up the total number of errors and warnings.
@@ -15,15 +17,15 @@ as functions to count up the total number of errors and warnings.
 For this example, import both the customlogger and pandas.
 
 ```python
-import customlogging as cl
+import redquill as rq
 import pandas as pd
 ```
 
 Initialize the logger.  Note, the logger always logs to the console
-by default. You may include a log directory and the log file name,
+by default. You may inrqude a log directory and the log file name,
 which will allow the logs to flow into a file as well.
 ```python
-log = cl.CustomLogging()
+log = rq.redquill()
 ```
 
 The following will log any null values found in ```df```.
@@ -35,7 +37,7 @@ log.warn_null_values(df=df)
 
 Console output.
 ```
-2018-03-04 01:34:33,162 - 23512 - WARNING - test_customlogging.test_warn_null_values - 
+2018-03-04 01:34:33,162 - 23512 - WARNING - test_redquill.test_warn_null_values - 
     A  B
 2 NaN  2
 ```
@@ -50,7 +52,7 @@ log.warn_duplicate_values(df=df, subset="B", msg="Duplicates on B.")
 
 Console output.
 ```
-2018-03-04 02:29:41,419 - 31825 - WARNING - test_customlogging.test_warn_duplicate_values - Duplicates on B.
+2018-03-04 02:29:41,419 - 31825 - WARNING - test_redquill.test_warn_duplicate_values - Duplicates on B.
      A  B
 1  2.0  2
 2  NaN  2

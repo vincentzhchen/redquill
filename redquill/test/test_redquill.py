@@ -19,12 +19,12 @@ import pandas as pd
 import pytest
 
 # PROJECT LIB
-import customlogging as cl
+import redquill as rq
 
 
 @pytest.fixture(scope="class")
 def log():
-    return cl.CustomLogging()
+    return rq.CustomLogging()
 
 
 @pytest.mark.usefixtures("log")
@@ -92,4 +92,4 @@ class TestDataFrameLogging(object):
     pytest.param(None, "log_file.log", "TEST", marks=pytest.mark.xfail),
 ])
 def test_initialize_logger(log_dir, name, level):
-    cl.initialize_logger(log_dir, name, level)
+    rq.initialize_logger(log_dir, name, level)
