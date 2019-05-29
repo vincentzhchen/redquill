@@ -1,1 +1,1 @@
-python -m pytest --cov-report=xml --cov=customlogging customlogging
+python -m pytest --cov-report=xml --cov=redquill redquill
