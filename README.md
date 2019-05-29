@@ -1,4 +1,5 @@
 # redquill
+[![PyPI version shields.io](https://img.shields.io/pypi/v/redquill.svg)](https://pypi.org/project/redquill/)
 [![Build Status](https://travis-ci.org/vincentzhchen/redquill.png?branch=master)](https://travis-ci.org/vincentzhchen/redquill)
 [![codecov](https://codecov.io/gh/vincentzhchen/redquill/coverage.svg?branch=master)](https://codecov.io/gh/vincentzhchen/redquill)
 
