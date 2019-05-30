@@ -24,7 +24,7 @@ import redquill as rq
 
 @pytest.fixture(scope="class")
 def log():
-    return rq.CustomLogging()
+    return rq.RedQuill()
 
 
 @pytest.mark.usefixtures("log")
@@ -55,10 +55,10 @@ class TestDataFrameLogging(object):
         return df
 
     def test_log_dataframe_info(self, log, data):
-        log.log_dataframe(df=data.head(1), msg="Test df info.")
+        log.log_data_frame(df=data.head(1), msg="Test df info.")
 
     def test_log_dataframe_error(self, log, data):
-        log.log_dataframe(df=data.head(1), msg="Test df error.", level="ERROR")
+        log.log_data_frame(df=data.head(1), msg="Test df error.", level="ERROR")
 
     def test_dataframe_head_tail(self, log, data):
         log.dataframe_head_tail(df=data)

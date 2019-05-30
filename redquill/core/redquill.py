@@ -13,20 +13,31 @@
 # limitations under the License.
 # ==============================================================================
 
+"""A custom logging library with pandas supported methods
+
+"""
+
 # STANDARD LIB
+import sys
+import warnings
 import logging
 import os
 import pandas as pd
-import sys
-import warnings
 
 LOG_NAME = "log.log"  # default log name
 
 
 # noinspection PyArgumentList,PyCallingNonCallable
-class CustomLogging(logging.Logger):
+class RedQuill(logging.Logger):
+    """Main logging class.
+
+    An instance of RedQuill is supposed to behave like a logger instance
+    from the logging module.
+
+    """
+
     def __init__(self, log_dir=None, name=LOG_NAME, level=logging.NOTSET):
-        super(CustomLogging, self).__init__(name=name)
+        super(RedQuill, self).__init__(name=name)
 
         # --- SET UP LOGGING ---
         formatter = logging.Formatter("%(asctime)s - "
@@ -67,10 +78,11 @@ class CustomLogging(logging.Logger):
 
     def _is_dataframe(self, df):
         if df.__class__ == pd.DataFrame:
-            return True
+            ret = True
         else:
             self._log(logging.ERROR, "no dataframe was passed in...", None)
-            return False
+            ret = False
+        return ret
 
     def info(self, msg, *args, **kwargs):
         if not self._is_level_allowed(level=logging.INFO):
@@ -107,7 +119,7 @@ class CustomLogging(logging.Logger):
                   exc_info=(type, value, traceback))
         self._collect_level_statistics(level=logging.ERROR)
 
-    def log_dataframe(self, df, n=10, msg="", level="INFO"):
+    def log_data_frame(self, df, n=10, msg="", level="INFO"):
         """Logs a pandas data frame.
 
         The default only logs the first 10 rows, since the dataframe can be
@@ -173,6 +185,15 @@ class CustomLogging(logging.Logger):
             self._collect_level_statistics(level=logging.WARNING)
 
     def warn_null_values(self, df, msg=""):
+        """
+
+        Args:
+            df:
+            msg:
+
+        Returns:
+
+        """
         if not self._is_level_allowed(level=logging.WARNING):
             return
 
@@ -185,22 +206,36 @@ class CustomLogging(logging.Logger):
             self._collect_level_statistics(level=logging.WARNING)
 
     def get_error_count(self):
+        """Get number of errors logged.
+
+        Returns:
+            anonymous (int): Total number of errors so far.
+        """
         return self.error_count
 
     def get_warning_count(self):
+        """Get number of warnings logged.
+
+        Returns:
+            anonymous (int): Total number of warnings so far.
+        """
         return self.warn_count
 
     def log_error_count(self):
-        self._log(logging.INFO, "TOTAL ERRORS: {}".format(self.error_count),
-                  None)
+        """Log the total number of errors so far.
+
+        """
+        self._log(logging.INFO, f"TOTAL ERRORS: {self.error_count}", None)
 
     def log_warning_count(self):
-        self._log(logging.INFO, "TOTAL WARNINGS: {}".format(self.warn_count),
-                  None)
+        """Log the total number of warnings so far.
+
+        """
+        self._log(logging.INFO, f"TOTAL WARNINGS: {self.warn_count}", None)
 
 
 def initialize_logger(log_dir=None, name=None, level=logging.NOTSET):
-    """API to construct CustomLogging instance.
+    """API to construct RedQuill instance.
 
     Args:
         log_dir (str): Root directory of the log file.
@@ -209,7 +244,7 @@ def initialize_logger(log_dir=None, name=None, level=logging.NOTSET):
         level (int): Log level value, e.g. logging.INFO, logging.DEBUG, etc.
 
     Returns:
-        anonymous (CustomLogging): Returns a CustomLogging instance.
+        anonymous (RedQuill): Returns a RedQuill instance.
     """
     if log_dir is None:
         warnings.warn("log_dir is None, no log file will be generated.")
@@ -222,4 +257,4 @@ def initialize_logger(log_dir=None, name=None, level=logging.NOTSET):
     if level not in logging._levelToName:
         raise ValueError("Custom levels not supported at this time.")
 
-    return CustomLogging(log_dir=log_dir, name=name, level=level)
+    return RedQuill(log_dir=log_dir, name=name, level=level)

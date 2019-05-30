@@ -12,4 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-from redquill.core.redquill import CustomLogging, initialize_logger
+from redquill.core.redquill import RedQuill, initialize_logger
