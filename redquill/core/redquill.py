@@ -119,8 +119,8 @@ class RedQuill(logging.Logger):
                   exc_info=(type, value, traceback))
         self._collect_level_statistics(level=logging.ERROR)
 
-    def log_data_frame(self, df, n=10, msg="", level="INFO"):
-        """Logs a pandas data frame.
+    def log_dataframe(self, df, n=10, msg="", level="INFO"):
+        """Logs a pandas dataframe.
 
         The default only logs the first 10 rows, since the dataframe can be
         potentially large.
@@ -146,7 +146,7 @@ class RedQuill(logging.Logger):
 
     def dataframe_head_tail(self, df, n=5, h=None, t=None, msg="",
                             level="INFO"):
-        """Logs the top and bottom n rows of a data frame.
+        """Logs the top and bottom n rows of a dataframe.
 
         Args:
             df (pd.DataFrame): Input dataframe.
@@ -172,27 +172,38 @@ class RedQuill(logging.Logger):
                   "\nTAIL\n" + tail.to_string(), None)
         self._collect_level_statistics(level=level)
 
-    def warn_duplicate_values(self, df, subset=None, msg="", keep=False):
+    def warn_duplicate_values(self, df, subset=None, msg=""):
+        """Warn on duplicate data frame records.
+
+        Args:
+            df (pd.DataFrame): A pandas data frame.
+            subset (str or list-like of str): The subset of columns to
+                check for duplicates against.
+            msg (str): Optional log message.
+
+        Returns:
+            void
+        """
         if not self._is_level_allowed(level=logging.WARNING):
             return
 
         if not self._is_dataframe(df=df):
             return
 
-        df = df[df.duplicated(subset=subset, keep=keep)]
+        df = df[df.duplicated(subset=subset, keep=False)]
         if not df.empty:
             self._log(logging.WARNING, msg + "\n" + df.to_string(), None)
             self._collect_level_statistics(level=logging.WARNING)
 
     def warn_null_values(self, df, msg=""):
-        """
+        """Warn on NULL data frame values.
 
         Args:
-            df:
-            msg:
+            df (pd.DataFrame): A pandas data frame.
+            msg (str): Optional log message.
 
         Returns:
-
+            void
         """
         if not self._is_level_allowed(level=logging.WARNING):
             return
