@@ -144,15 +144,12 @@ class RedQuill(logging.Logger):
         self._log(level, msg + "\n" + df.head(n).to_string(), None)
         self._collect_level_statistics(level=level)
 
-    def dataframe_head_tail(self, df, n=5, h=None, t=None, msg="",
-                            level="INFO"):
+    def log_dataframe_head_tail(self, df, n=5, msg="", level="INFO"):
         """Logs the top and bottom n rows of a dataframe.
 
         Args:
             df (pd.DataFrame): Input dataframe.
             n (int): Number of rows in both head and tail; default is 5.
-            h (int): Number of rows in the head, overwrites n.
-            t (int): Number of rows in the tail, overwrites n.
             msg (str): Log message; default is no message (empty string).
             level (str): Log level name; default is "INFO".
 
@@ -166,8 +163,8 @@ class RedQuill(logging.Logger):
         if not self._is_dataframe(df=df):
             return
 
-        head = df.head(h) if h else df.head(n)
-        tail = df.tail(t) if t else df.tail(n)
+        head = df.head(n)
+        tail = df.tail(n)
         self._log(level, msg + "\nHEAD\n" + head.to_string() +
                   "\nTAIL\n" + tail.to_string(), None)
         self._collect_level_statistics(level=level)

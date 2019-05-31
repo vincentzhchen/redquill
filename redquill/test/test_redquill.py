@@ -61,7 +61,7 @@ class TestDataFrameLogging(object):
         log.log_dataframe(df=data.head(1), msg="Test df error.", level="ERROR")
 
     def test_dataframe_head_tail(self, log, data):
-        log.dataframe_head_tail(df=data)
+        log.log_dataframe_head_tail(df=data)
 
     def test_warn_duplicate_values(self, log):
         df = pd.DataFrame({"A": [1, 2, None, 3],
