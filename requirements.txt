@@ -1,2 +1,3 @@
-pandas>=0.16.2
-pytest-cov
+# installs dependencies from ./setup.py, and the package itself,
+# in editable mode
+-e .
