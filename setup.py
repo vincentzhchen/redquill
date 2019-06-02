@@ -9,7 +9,7 @@ URL = "https://github.com/vincentzhchen/redquill"
 
 setup(
     name="redquill",
-    version="0.0.0",
+    version="0.0.1",
     packages=find_packages(),
     include_package_data=True,
     install_requires=["pandas>=0.18.0"],
