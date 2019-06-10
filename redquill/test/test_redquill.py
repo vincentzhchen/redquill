@@ -83,6 +83,12 @@ class TestDataFrameLogging(object):
     def test_get_warn_count(self, log):
         assert log.get_warning_count() == 2
 
+    def test_log_error_count(self, log):
+        log.log_error_count()
+
+    def test_log_warning_count(self, log):
+        log.log_warning_count()
+
 
 @pytest.mark.parametrize("log_dir, name, level", [
     # no log dir, no log name
