@@ -2,19 +2,19 @@ import os
 from setuptools import setup, find_packages
 
 HERE = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(HERE, 'README.md')) as f:
+with open(os.path.join(HERE, "README.md")) as f:
     README = f.read()
 
 URL = "https://github.com/vincentzhchen/redquill"
 
 setup(
     name="redquill",
-    version="0.0.1",
+    version="0.0.2",
     packages=find_packages(),
     include_package_data=True,
     install_requires=["pandas>=0.18.0"],
     setup_requires=["pytest-runner"],
-    tests_require=["pytest-cov"],
+    tests_require=["pytest"],
     python_requires=">=3.6",
 
     # metadata to display on PyPI

@@ -63,6 +63,9 @@ class TestDataFrameLogging(object):
     def test_dataframe_head_tail(self, log, data):
         log.log_dataframe_head_tail(df=data)
 
+    def test_log_dataframe_bad_input(self, log):
+        log.log_dataframe([1])
+
     def test_warn_duplicate_values(self, log):
         df = pd.DataFrame({"A": [1, 2, None, 3],
                            "B": [4, 2, 2, 5]})
@@ -93,3 +96,8 @@ class TestDataFrameLogging(object):
 ])
 def test_initialize_logger(log_dir, name, level):
     rq.initialize_logger(log_dir, name, level)
+
+
+def test_initialize_logger_with_log_dir(tmpdir):
+    log_dir = tmpdir.mkdir("log_dir")
+    rq.initialize_logger(log_dir, "log_file.log", logging.INFO)
